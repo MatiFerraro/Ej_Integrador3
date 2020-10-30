@@ -1,24 +1,33 @@
+import DAOs.AutomovilDAO;
+import DAOs.imp.AutomovilDAOImp;
+import model.Adicionales.*;
+import model.Automoviles.Automovil;
+import model.Automoviles.Coupe;
+import model.Automoviles.Familiar;
+import model.Automoviles.Sedan;
+
 public class Main {
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws Exception {
+
+        AutomovilDAO autoSQL = new AutomovilDAOImp();
+        Coupe coupeAux = new Coupe();
 
         Coupe miCoupe = new Coupe();
-        miCoupe.agregarAdicional("AA");
-        miCoupe.agregarAdicional("ABS");
-        miCoupe.agregarAdicional("LL");
+        miCoupe.agregarAdicional(new TechoCorredizo());
+        miCoupe.agregarAdicional(new Llantas());
 
-        Sedan miSedan = new Sedan();
-        miSedan.agregarAdicional("TC");
-        miSedan.agregarAdicional("AA");
-        miSedan.agregarAdicional("ABS");
-        miSedan.agregarAdicional("AB");
-        miSedan.agregarAdicional("LL");
+        miCoupe.setId(15);
+        //miCoupe.setPrecioFinal(miCoupe.calcularCosto());
 
-        Familiar miFamiliar = new Familiar();
+        autoSQL.insert(miCoupe);
 
-        System.out.println("Coupe con AA, ABS y LL: $" + miCoupe.calcularCosto());
-        System.out.println("Sedan full: $" + miSedan.calcularCosto());
-        System.out.println("Familiar sin nada: $" + miFamiliar.calcularCosto());
+        coupeAux = (Coupe) autoSQL.queryId(15);
+
+        System.out.println("El id del miCoupe es: " + coupeAux.getId() +
+                            " el precio base es: $" + coupeAux.getPrecioBase() +
+                            " el precio final es: $" + coupeAux.getPrecioFinal());
+
     }
 
 }
